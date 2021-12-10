@@ -7,7 +7,8 @@ const { layers, width, height } = require('./layers/config');
 const canvas = createCanvas(width, height);
 const ctx = canvas.getContext('2d');
 
-const edition = 1;
+const myArgs = process.argv.slice(2);
+const edition = myArgs.length > 0 ? Number(myArgs[0]) : 1;
 
 const saveLayer = (canvas, edition) => {
   fs.writeFileSync(`./output/${edition}.png`, canvas.toBuffer('image/png'));
