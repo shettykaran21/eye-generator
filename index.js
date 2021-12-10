@@ -2,7 +2,9 @@ const fs = require('fs');
 
 const { createCanvas, loadImage } = require('canvas');
 
-const canvas = createCanvas(1000, 1000);
+const { layers, width, height } = require('./layers/config');
+
+const canvas = createCanvas(width, height);
 const ctx = canvas.getContext('2d');
 
 const saveLayer = (canvas) => {
@@ -12,7 +14,7 @@ const saveLayer = (canvas) => {
 const drawLayer = async () => {
   const image = await loadImage('./eye-ball.png');
 
-  ctx.drawImage(image, 0, 0, 1000, 1000);
+  ctx.drawImage(image, 0, 0, width, height);
 
   saveLayer(canvas);
 };
