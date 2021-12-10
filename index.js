@@ -7,16 +7,31 @@ const { layers, width, height } = require('./layers/config');
 const canvas = createCanvas(width, height);
 const ctx = canvas.getContext('2d');
 
-const saveLayer = (canvas) => {
-  fs.writeFileSync('./new-image.png', canvas.toBuffer('image/png'));
+const edition = 1;
+
+const saveLayer = (canvas, edition) => {
+  fs.writeFileSync(`./output/${edition}.png`, canvas.toBuffer('image/png'));
 };
 
-const drawLayer = async () => {
-  const image = await loadImage('./eye-ball.png');
+const drawLayer = async (layer, edition) => {
+  let element =
+    layer.elements[Math.floor(Math.random() * layer.elements.length)];
 
-  ctx.drawImage(image, 0, 0, width, height);
+  const image = await loadImage(`${layer.location}${element.fileName}`);
 
-  saveLayer(canvas);
+  ctx.drawImage(
+    image,
+    layer.position.x,
+    layer.position.y,
+    layer.size.width,
+    layer.size.height
+  );
+
+  saveLayer(canvas, edition);
 };
 
-drawLayer();
+for (let i = 1; i <= edition; ++i) {
+  layers.forEach((layer) => {
+    drawLayer(layer, i);
+  });
+}
